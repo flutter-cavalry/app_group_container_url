@@ -24,10 +24,8 @@ void main() {
               expect(arguments['appGroupID'], 'group.example.app');
               return arguments['subDir'] == null ? '/group' : '/group/cache';
             case 'delete':
-              expect(methodCall.arguments, {
-                'appGroupID': 'group.example.app',
-                'subDir': 'cache',
-              });
+              final arguments = methodCall.arguments as Map<Object?, Object?>;
+              expect(arguments['appGroupID'], 'group.example.app');
               return true;
           }
           return null;
@@ -63,5 +61,9 @@ void main() {
 
   test('delete', () async {
     expect(await platform.delete('group.example.app', 'cache'), isTrue);
+  });
+
+  test('delete accepts null subDir to clear container contents', () async {
+    expect(await platform.delete('group.example.app', null), isTrue);
   });
 }

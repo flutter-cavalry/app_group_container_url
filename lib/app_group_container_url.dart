@@ -9,7 +9,7 @@ class AppGroupContainerUrl {
     return AppGroupContainerUrlPlatform.instance.getPath(appGroupID, subDir);
   }
 
-  Future<bool> delete(String appGroupID, String subDir) {
+  Future<bool> delete(String appGroupID, [String? subDir]) {
     return AppGroupContainerUrlPlatform.instance.delete(appGroupID, subDir);
   }
 }

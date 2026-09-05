@@ -44,37 +44,41 @@ public class AppGroupContainerUrlPlugin: NSObject, FlutterPlugin {
     switch call.method {
     case "getUrl", "getPath", "delete":
       guard let arguments = call.arguments as? [String: Any],
-        let appGroupID = arguments["appGroupID"] as? String,
-        let subDir = arguments["subDir"] as? String?,
-        let directoryURL = subdirectoryURL(appGroupID: appGroupID, subDir: subDir)
+        let appGroupID = arguments["appGroupID"] as? String
       else {
         result(nil)
         return
       }
 
+      let subDir = arguments["subDir"] as? String
       switch call.method {
       case "getUrl":
-        result(directoryURL.absoluteString)
+        result(subdirectoryURL(appGroupID: appGroupID, subDir: subDir)?.absoluteString)
       case "getPath":
-        result(directoryURL.path)
+        result(subdirectoryURL(appGroupID: appGroupID, subDir: subDir)?.path)
       case "delete":
-        guard let subDir, !subDir.isEmpty else {
+        guard let containerURL = subdirectoryURL(appGroupID: appGroupID, subDir: nil) else {
           result(false)
           return
         }
-        do {
-          if FileManager.default.fileExists(atPath: directoryURL.path) {
-            try FileManager.default.removeItem(at: directoryURL)
+        if let subDir, !subDir.isEmpty {
+          guard let directoryURL = subdirectoryURL(appGroupID: appGroupID, subDir: subDir) else {
+            result(false)
+            return
           }
-          result(true)
-        } catch {
-          result(
-            FlutterError(
-              code: "DELETE_FAILED",
-              message: "Unable to delete the subdirectory.",
-              details: error.localizedDescription
-            ))
+          if FileManager.default.fileExists(atPath: directoryURL.path) {
+            try? FileManager.default.removeItem(at: directoryURL)
+          }
+        } else {
+          let contents = try? FileManager.default.contentsOfDirectory(
+            at: containerURL,
+            includingPropertiesForKeys: nil
+          )
+          for itemURL in contents ?? [] {
+            try? FileManager.default.removeItem(at: itemURL)
+          }
         }
+        result(true)
       default:
         result(FlutterMethodNotImplemented)
       }

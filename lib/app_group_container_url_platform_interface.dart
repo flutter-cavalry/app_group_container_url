@@ -32,7 +32,7 @@ abstract class AppGroupContainerUrlPlatform extends PlatformInterface {
     throw UnimplementedError('getPath() has not been implemented.');
   }
 
-  Future<bool> delete(String appGroupID, String subDir) {
+  Future<bool> delete(String appGroupID, String? subDir) {
     throw UnimplementedError('delete() has not been implemented.');
   }
 }

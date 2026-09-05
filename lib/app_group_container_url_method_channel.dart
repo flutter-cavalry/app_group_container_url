@@ -26,11 +26,15 @@ class MethodChannelAppGroupContainerUrl extends AppGroupContainerUrlPlatform {
   }
 
   @override
-  Future<bool> delete(String appGroupID, String subDir) async {
-    return await methodChannel.invokeMethod<bool>('delete', {
-          'appGroupID': appGroupID,
-          'subDir': subDir,
-        }) ??
-        false;
+  Future<bool> delete(String appGroupID, String? subDir) async {
+    try {
+      return await methodChannel.invokeMethod<bool>('delete', {
+            'appGroupID': appGroupID,
+            'subDir': subDir,
+          }) ??
+          false;
+    } catch (_) {
+      return false;
+    }
   }
 }

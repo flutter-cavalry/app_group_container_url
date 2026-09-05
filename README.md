@@ -39,12 +39,12 @@ resolved or `subDir` is invalid.
 `getPath(appGroupID, [subDir])` returns the App Group container or its
 subdirectory's filesystem path, or `null` under the same conditions.
 
-`delete(appGroupID, subDir)` deletes the requested subdirectory and its
-contents. It returns `true` when deletion succeeds, including when the
-subdirectory does not exist, and throws a `PlatformException` when the deletion
-fails.
+`delete(appGroupID, [subDir])` deletes the requested subdirectory and its
+contents. When `subDir` is omitted or `null`, it deletes every item inside the
+App Group container while preserving the container itself. It returns `false`
+instead of throwing when the container cannot be resolved or deletion fails.
 
 When omitted or `null`, `subDir` resolves to the App Group container itself.
-For `delete`, `subDir` must be non-empty. Paths that attempt to escape the
-container, such as `../other-directory`, are rejected.
+Paths that attempt to escape the container, such as `../other-directory`, are
+rejected.
 

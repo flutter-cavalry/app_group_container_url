@@ -16,7 +16,7 @@ class MockAppGroupContainerUrlPlatform
       Future.value('/group/cache');
 
   @override
-  Future<bool> delete(String appGroupID, String subDir) => Future.value(true);
+  Future<bool> delete(String appGroupID, String? subDir) => Future.value(true);
 }
 
 void main() {
