@@ -16,4 +16,29 @@ class MethodChannelAppGroupContainerUrl extends AppGroupContainerUrlPlatform {
     );
     return version;
   }
+
+  @override
+  Future<String?> getUrl(String appGroupID, String subDir) {
+    return methodChannel.invokeMethod<String>('getUrl', {
+      'appGroupID': appGroupID,
+      'subDir': subDir,
+    });
+  }
+
+  @override
+  Future<String?> getPath(String appGroupID, String subDir) {
+    return methodChannel.invokeMethod<String>('getPath', {
+      'appGroupID': appGroupID,
+      'subDir': subDir,
+    });
+  }
+
+  @override
+  Future<bool> delete(String appGroupID, String subDir) async {
+    return await methodChannel.invokeMethod<bool>('delete', {
+          'appGroupID': appGroupID,
+          'subDir': subDir,
+        }) ??
+        false;
+  }
 }

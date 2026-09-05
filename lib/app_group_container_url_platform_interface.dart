@@ -8,7 +8,8 @@ abstract class AppGroupContainerUrlPlatform extends PlatformInterface {
 
   static final Object _token = Object();
 
-  static AppGroupContainerUrlPlatform _instance = MethodChannelAppGroupContainerUrl();
+  static AppGroupContainerUrlPlatform _instance =
+      MethodChannelAppGroupContainerUrl();
 
   /// The default instance of [AppGroupContainerUrlPlatform] to use.
   ///
@@ -25,5 +26,17 @@ abstract class AppGroupContainerUrlPlatform extends PlatformInterface {
 
   Future<String?> getPlatformVersion() {
     throw UnimplementedError('platformVersion() has not been implemented.');
+  }
+
+  Future<String?> getUrl(String appGroupID, String subDir) {
+    throw UnimplementedError('getUrl() has not been implemented.');
+  }
+
+  Future<String?> getPath(String appGroupID, String subDir) {
+    throw UnimplementedError('getPath() has not been implemented.');
+  }
+
+  Future<bool> delete(String appGroupID, String subDir) {
+    throw UnimplementedError('delete() has not been implemented.');
   }
 }
