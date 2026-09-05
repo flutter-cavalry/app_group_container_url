@@ -1,7 +1,7 @@
 name: app_group_container_url
 description: "Resolve and manage subdirectories in Apple App Group containers on iOS and macOS."
-version: 0.1.0
-homepage:
+version: 0.1.1
+homepage: https://github.com/flutter-cavalry/app_group_container_url
 
 environment:
   sdk: ^3.13.2
