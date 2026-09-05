@@ -1,11 +1,11 @@
 name: app_group_container_url
-description: "A new Flutter plugin project."
+description: "Resolve and manage subdirectories in Apple App Group containers on iOS and macOS."
 version: 0.0.1
 homepage:
 
 environment:
   sdk: ^3.13.2
-  flutter: '>=3.3.0'
+  flutter: ">=3.3.0"
 
 dependencies:
   flutter:
