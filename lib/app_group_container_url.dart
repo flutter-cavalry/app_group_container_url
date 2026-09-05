@@ -1,15 +1,11 @@
 import 'app_group_container_url_platform_interface.dart';
 
 class AppGroupContainerUrl {
-  Future<String?> getPlatformVersion() {
-    return AppGroupContainerUrlPlatform.instance.getPlatformVersion();
-  }
-
-  Future<String?> getUrl(String appGroupID, String subDir) {
+  Future<String?> getUrl(String appGroupID, [String? subDir]) {
     return AppGroupContainerUrlPlatform.instance.getUrl(appGroupID, subDir);
   }
 
-  Future<String?> getPath(String appGroupID, String subDir) {
+  Future<String?> getPath(String appGroupID, [String? subDir]) {
     return AppGroupContainerUrlPlatform.instance.getPath(appGroupID, subDir);
   }
 

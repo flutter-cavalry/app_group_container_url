@@ -6,19 +6,19 @@
 // For more information about Flutter integration tests, please see
 // https://flutter.dev/to/integration-testing
 
+import 'package:app_group_container_url/app_group_container_url.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-
-import 'package:app_group_container_url/app_group_container_url.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('getPlatformVersion test', (WidgetTester tester) async {
+  testWidgets('getPath returns null for an unavailable App Group', (
+    WidgetTester tester,
+  ) async {
     final AppGroupContainerUrl plugin = AppGroupContainerUrl();
-    final String? version = await plugin.getPlatformVersion();
-    // The version string depends on the host platform running the test, so
-    // just assert that some non-empty string is returned.
-    expect(version?.isNotEmpty, true);
+    final String? path = await plugin.getPath('group.invalid.app-group');
+
+    expect(path, isNull);
   });
 }

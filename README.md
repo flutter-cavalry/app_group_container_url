@@ -24,6 +24,7 @@ final appGroup = AppGroupContainerUrl();
 const appGroupID = 'group.com.yourcompany.yourapp';
 const subDir = 'shared-cache';
 
+final containerPath = await appGroup.getPath(appGroupID);
 final url = await appGroup.getUrl(appGroupID, subDir);
 final path = await appGroup.getPath(appGroupID, subDir);
 final deleted = await appGroup.delete(appGroupID, subDir);
@@ -31,18 +32,19 @@ final deleted = await appGroup.delete(appGroupID, subDir);
 
 ## API
 
-`getUrl(appGroupID, subDir)` returns the subdirectory as a file URL string, or
-`null` when the App Group container cannot be resolved or `subDir` is invalid.
+`getUrl(appGroupID, [subDir])` returns the App Group container or its
+subdirectory as a file URL string, or `null` when the container cannot be
+resolved or `subDir` is invalid.
 
-`getPath(appGroupID, subDir)` returns the subdirectory's filesystem path, or
-`null` under the same conditions.
+`getPath(appGroupID, [subDir])` returns the App Group container or its
+subdirectory's filesystem path, or `null` under the same conditions.
 
 `delete(appGroupID, subDir)` deletes the requested subdirectory and its
 contents. It returns `true` when deletion succeeds, including when the
 subdirectory does not exist, and throws a `PlatformException` when the deletion
 fails.
 
-`subDir` must be non-empty and must resolve within the App Group container.
-Paths that attempt to escape the container, such as `../other-directory`, are
-rejected.
+When omitted or `null`, `subDir` resolves to the App Group container itself.
+For `delete`, `subDir` must be non-empty. Paths that attempt to escape the
+container, such as `../other-directory`, are rejected.
 

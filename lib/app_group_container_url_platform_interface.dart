@@ -24,15 +24,11 @@ abstract class AppGroupContainerUrlPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<String?> getPlatformVersion() {
-    throw UnimplementedError('platformVersion() has not been implemented.');
-  }
-
-  Future<String?> getUrl(String appGroupID, String subDir) {
+  Future<String?> getUrl(String appGroupID, String? subDir) {
     throw UnimplementedError('getUrl() has not been implemented.');
   }
 
-  Future<String?> getPath(String appGroupID, String subDir) {
+  Future<String?> getPath(String appGroupID, String? subDir) {
     throw UnimplementedError('getPath() has not been implemented.');
   }
 

@@ -8,8 +8,8 @@
 #endif
 
 public class AppGroupContainerUrlPlugin: NSObject, FlutterPlugin {
-  private func subdirectoryURL(appGroupID: String, subDir: String) -> URL? {
-    guard !subDir.isEmpty,
+  private func subdirectoryURL(appGroupID: String, subDir: String?) -> URL? {
+    guard
       let containerURL = FileManager.default.containerURL(
         forSecurityApplicationGroupIdentifier: appGroupID
       )
@@ -18,15 +18,12 @@ public class AppGroupContainerUrlPlugin: NSObject, FlutterPlugin {
     }
 
     let resolvedContainerURL = containerURL.standardizedFileURL
+    guard let subDir, !subDir.isEmpty else {
+      return resolvedContainerURL
+    }
     let directoryURL =
       resolvedContainerURL
       .appendingPathComponent(subDir, isDirectory: true)
-      .standardizedFileURL
-
-    guard directoryURL.path.hasPrefix(resolvedContainerURL.path + "/") else {
-      return nil
-    }
-
     return directoryURL
   }
 
@@ -45,20 +42,10 @@ public class AppGroupContainerUrlPlugin: NSObject, FlutterPlugin {
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     switch call.method {
-    case "getPlatformVersion":
-      // Use compile-time conditions to return the correct OS version string.
-      #if os(iOS)
-        result("iOS " + UIDevice.current.systemVersion)
-      #elseif os(macOS)
-        result("macOS " + ProcessInfo.processInfo.operatingSystemVersionString)
-      #else
-        // A fallback for any other Apple platform that might be supported in the future.
-        result(FlutterMethodNotImplemented)
-      #endif
     case "getUrl", "getPath", "delete":
       guard let arguments = call.arguments as? [String: Any],
         let appGroupID = arguments["appGroupID"] as? String,
-        let subDir = arguments["subDir"] as? String,
+        let subDir = arguments["subDir"] as? String?,
         let directoryURL = subdirectoryURL(appGroupID: appGroupID, subDir: subDir)
       else {
         result(nil)
@@ -71,6 +58,10 @@ public class AppGroupContainerUrlPlugin: NSObject, FlutterPlugin {
       case "getPath":
         result(directoryURL.path)
       case "delete":
+        guard let subDir, !subDir.isEmpty else {
+          result(false)
+          return
+        }
         do {
           if FileManager.default.fileExists(atPath: directoryURL.path) {
             try FileManager.default.removeItem(at: directoryURL)

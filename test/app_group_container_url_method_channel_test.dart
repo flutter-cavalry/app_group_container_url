@@ -13,20 +13,16 @@ void main() {
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(channel, (MethodCall methodCall) async {
           switch (methodCall.method) {
-            case 'getPlatformVersion':
-              return '42';
             case 'getUrl':
-              expect(methodCall.arguments, {
-                'appGroupID': 'group.example.app',
-                'subDir': 'cache',
-              });
-              return 'file:///group/cache';
+              final arguments = methodCall.arguments as Map<Object?, Object?>;
+              expect(arguments['appGroupID'], 'group.example.app');
+              return arguments['subDir'] == null
+                  ? 'file:///group'
+                  : 'file:///group/cache';
             case 'getPath':
-              expect(methodCall.arguments, {
-                'appGroupID': 'group.example.app',
-                'subDir': 'cache',
-              });
-              return '/group/cache';
+              final arguments = methodCall.arguments as Map<Object?, Object?>;
+              expect(arguments['appGroupID'], 'group.example.app');
+              return arguments['subDir'] == null ? '/group' : '/group/cache';
             case 'delete':
               expect(methodCall.arguments, {
                 'appGroupID': 'group.example.app',
@@ -43,10 +39,6 @@ void main() {
         .setMockMethodCallHandler(channel, null);
   });
 
-  test('getPlatformVersion', () async {
-    expect(await platform.getPlatformVersion(), '42');
-  });
-
   test('getUrl', () async {
     expect(
       await platform.getUrl('group.example.app', 'cache'),
@@ -54,11 +46,19 @@ void main() {
     );
   });
 
+  test('getUrl returns the container URL without a subdirectory', () async {
+    expect(await platform.getUrl('group.example.app', null), 'file:///group');
+  });
+
   test('getPath', () async {
     expect(
       await platform.getPath('group.example.app', 'cache'),
       '/group/cache',
     );
+  });
+
+  test('getPath returns the container path without a subdirectory', () async {
+    expect(await platform.getPath('group.example.app', null), '/group');
   });
 
   test('delete', () async {

@@ -10,15 +10,7 @@ class MethodChannelAppGroupContainerUrl extends AppGroupContainerUrlPlatform {
   final methodChannel = const MethodChannel('app_group_container_url');
 
   @override
-  Future<String?> getPlatformVersion() async {
-    final version = await methodChannel.invokeMethod<String>(
-      'getPlatformVersion',
-    );
-    return version;
-  }
-
-  @override
-  Future<String?> getUrl(String appGroupID, String subDir) {
+  Future<String?> getUrl(String appGroupID, String? subDir) {
     return methodChannel.invokeMethod<String>('getUrl', {
       'appGroupID': appGroupID,
       'subDir': subDir,
@@ -26,7 +18,7 @@ class MethodChannelAppGroupContainerUrl extends AppGroupContainerUrlPlatform {
   }
 
   @override
-  Future<String?> getPath(String appGroupID, String subDir) {
+  Future<String?> getPath(String appGroupID, String? subDir) {
     return methodChannel.invokeMethod<String>('getPath', {
       'appGroupID': appGroupID,
       'subDir': subDir,

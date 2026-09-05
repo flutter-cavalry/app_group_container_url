@@ -8,14 +8,11 @@ class MockAppGroupContainerUrlPlatform
     with MockPlatformInterfaceMixin
     implements AppGroupContainerUrlPlatform {
   @override
-  Future<String?> getPlatformVersion() => Future.value('42');
-
-  @override
-  Future<String?> getUrl(String appGroupID, String subDir) =>
+  Future<String?> getUrl(String appGroupID, String? subDir) =>
       Future.value('file:///group/cache');
 
   @override
-  Future<String?> getPath(String appGroupID, String subDir) =>
+  Future<String?> getPath(String appGroupID, String? subDir) =>
       Future.value('/group/cache');
 
   @override
@@ -28,15 +25,6 @@ void main() {
 
   test('$MethodChannelAppGroupContainerUrl is the default instance', () {
     expect(initialPlatform, isInstanceOf<MethodChannelAppGroupContainerUrl>());
-  });
-
-  test('getPlatformVersion', () async {
-    AppGroupContainerUrl appGroupContainerUrlPlugin = AppGroupContainerUrl();
-    MockAppGroupContainerUrlPlatform fakePlatform =
-        MockAppGroupContainerUrlPlatform();
-    AppGroupContainerUrlPlatform.instance = fakePlatform;
-
-    expect(await appGroupContainerUrlPlugin.getPlatformVersion(), '42');
   });
 
   test('container methods', () async {
