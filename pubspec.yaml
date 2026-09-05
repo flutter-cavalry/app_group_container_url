@@ -1,6 +1,6 @@
 name: app_group_container_url
 description: "Resolve and manage subdirectories in Apple App Group containers on iOS and macOS."
-version: 0.0.1
+version: 0.1.0
 homepage:
 
 environment:
